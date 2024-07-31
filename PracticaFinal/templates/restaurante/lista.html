@@ -1,0 +1,101 @@
+{% extends "templateL.html" %}
+{% block content %}
+<h2 class="text-white text-center mb-4">Lista de Restaurantes</h2>
+<div class="text-center mb-4">
+    <img src="https://i0.wp.com/dretalaw.com/wp-content/uploads/2023/06/pexels-life-of-pix-67468-scaled.jpg?fit=768%2C512&ssl=1"
+        class="rounded" alt="res" style="max-width: 50%; height: auto; width: 25%;">
+</div>
+<div class="container mt-5 text-center">
+    <div class="card bg-light text-dark mb-4">
+        <div class="card-header bg-info">
+            <h3>Calcular Camino Mínimo</h3>
+        </div>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        <div class="container mt-4">
+            {% for category, message in messages %}
+            <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        {% endwith %}
+
+        <div class="card-body">
+            <form action="/restaurantes/camino_minimo" method="post" class="mb-4">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="origen" class="form-label">Origen:</label>
+                        <select id="origen" name="origen" class="form-select">
+                            {% for item in lista %}
+                            <option value="{{ item.nombre }}">{{ item.nombre }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="destino" class="form-label">Destino:</label>
+                        <select id="destino" name="destino" class="form-select">
+                            {% for item in lista %}
+                            <option value="{{ item.nombre }}">{{ item.nombre }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 mb-3">
+                        <label for="metodo" class="form-label">Método:</label>
+                        <select id="metodo" name="metodo" class="form-select">
+                            <option value="dijkstra">Dijkstra</option>
+                            <option value="floyd">Floyd-Warshall</option>
+                        </select>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-success w-25">Calcular Camino Mínimo</button>
+            </form>
+        </div>
+    </div>
+    <div class="booking-form-body bg-dark p-4 rounded">
+        <div class="d-flex justify-content-between mb-3">
+            <a href="/restaurantes/agregar" class="btn btn-danger">Agregar</a>
+            <a href="/restaurantes/grafo_negocio" target="_blank" class="btn btn-info">Ver Grafo</a>
+            <a href="/restaurantes/grafo_ver_admin" class="btn btn-warning">Administrar Grafo</a>
+        </div>
+        <div class="table-responsive">
+            <table id="tabla" class="table table-dark table-striped text-white">
+                <thead class="thead-light">
+                    <tr>
+                        <th>Nro</th>
+                        <th>Nombre</th>
+                        <th>Dirección</th>
+                        <th>Horario</th>
+                        <th>Longitud</th>
+                        <th>Latitud</th>
+                        <th>Editar</th>
+                        <th>Eliminar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in lista %}
+                    <tr>
+                        <td>{{ item.id }}</td>
+                        <td>{{ item.nombre }}</td>
+                        <td>{{ item.direccion }}</td>
+                        <td>{{ item.horario }}</td>
+                        <td>{{ item.lng }}</td>
+                        <td>{{ item.lat }}</td>
+                        <td>
+                            <a href="/restaurantes/editar/{{ item.id }}" class="btn btn-info btn-sm">Modificar</a>
+                        </td>
+                        <td>
+                            <a href="/negocio/eliminar/{{ item.id }}" class="btn btn-danger">Eliminar</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

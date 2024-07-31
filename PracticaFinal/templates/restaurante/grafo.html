@@ -1,0 +1,79 @@
+{% extends "templateL.html" %}
+{% block content %}
+<h2 class="text-white mb-4">Administrar Adyacencias</h2>
+<div class="booking-form-body">
+
+    <div class="row my-4">
+        <div class="card w-100 shadow-sm">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">Agregar Adyacencia</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    {% with messages = get_flashed_messages(category_filter='error', with_categories=true) %}
+                    {% if messages %}
+                    <div class="alert alert-danger w-100">
+                        {% for category, message in messages %}
+                        <p class="text-dark mb-0">{{ message }}</p>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                    {% endwith %}
+                    <form id="form" class="row w-100" action="/restaurantes/adyacencia" method="post" role="form">
+                        <div class="col-lg-6 col-12 mb-3">
+                            <label for="origen" class="form-label">Origen:</label>
+                            <select id="origen" class="form-control" name="origen">
+                                {% for item in lista %}
+                                <option value="{{item.id}}">{{item.nombre}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-lg-6 col-12 mb-3">
+                            <label for="destino" class="form-label">Destino:</label>
+                            <select id="destino" class="form-control" name="destino">
+                                {% for item in lista %}
+                                <option value="{{item.id}}">{{item.nombre}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-lg-6 col-12 mb-3">
+                            <button id="boton" type="submit" class="btn btn-success w-100">Agregar</button>
+                        </div>
+                        <div class="col-lg-6 col-12 mb-3">
+                            <a href="/restaurantes" class="btn btn-danger w-100">Volver</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="table-responsive bg-light">
+                <table id="tabla" class="table table-bordered table-striped text-white">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th width="150">-----</th>
+                            {% for item in lista %}
+                            <th>{{ item.nombre }}</th>
+                            {% endfor %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in lista %}
+                        <tr>
+                            <td>{{ item.nombre }}</td>
+                            {% for adys in matrizAux[loop.index0] %}
+                            <td>{{ adys }}</td>
+                            {% endfor %}
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

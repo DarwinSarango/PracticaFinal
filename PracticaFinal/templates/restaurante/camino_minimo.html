@@ -1,0 +1,29 @@
+{% extends "templateL.html" %}
+{% block content %}
+<h2 class="text-white text-center mt-4">Camino Mínimo - {{ metodo }}</h2>
+
+<div class="container mt-5">
+    <div class="card bg-light text-dark">
+        <div class="card-header bg-primary text-center text-white">
+            <h3>Detalles del Camino</h3>
+        </div>
+        <div class="card-body">
+            <h4>Origen: <span class="badge bg-info">{{ path[0] }}</span></h4>
+            <h4>Destino: <span class="badge bg-danger">{{ path[-1] }}</span></h4>
+            <h5>Distancia: <span class="badge bg-success">{{ distance }} KILOMETROS </span></h5>
+            <hr>
+            <h5>Ruta:</h5>
+            <ul class="list-group list-group-flush">
+                {% for node in path %}
+                    <li class="list-group-item bg-light text-dark">{{ node }}</li>
+                {% endfor %}
+            </ul>
+            <hr>
+            <h5>Tiempo de ejecución: <span class="badge bg-warning">{{ elapsed_time }} segundos</span></h5>
+        </div>
+        <div class="card-footer text-center bg-light">
+            <a href="/restaurantes" class="btn btn-primary">Regresar</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
